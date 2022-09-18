@@ -1,0 +1,17 @@
+function [pjoint, pcond] = TransferEntropyProb(x, y, n)
+L = length(x); 
+r = 10^-6; 
+z1 = x(2:L)-x(n+1);  
+z2 = x(1:L-1)-x(n); 
+z3 = y(1:L-1)-y(n); 
+Z = [z1 z2]; 
+z = max(abs(Z'));
+count = sum(z < r); 
+count2 = sum(abs(Z(:,2)) < r); 
+pxx = count/(L-1); 
+px = count2/(L-1);
+pcond = pxx/px; 
+Z = [z1 z2 z3];
+z = max(abs(Z')); 
+count = sum(z < r);
+pjoint = count/(L-1);

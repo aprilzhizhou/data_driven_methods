@@ -1,0 +1,46 @@
+%% construct lattice
+
+M = 100; % number of points 
+N= 2*10^5; % number of iterations 
+epsvec = 0:0.01:0.05; % epsilon list 
+Tavgvec = []; % average transfer entropy list 
+for eps = epsvec
+    Tvec = [];
+    for jj = 1:10 % averaging 10 runs 
+        X = zeros(M,N);
+        X(:,1)=  rand(M,1);
+        % for n = 1: only update x^2 to x^m )
+            for m = 2:M
+                X(m,2) = ftent(eps*X(m-1,1) + (1-eps)*X(m,1));
+            end
+        for n = 2:N 
+              % for m =1
+                X(1,n+1) = ftent(eps*X(M,n) + (1-eps)*X(1,n)); %periodic
+            for m = 2:M
+                X(m,n+1) = ftent(eps*X(m-1,n) + (1-eps)*X(m,n));
+            end
+        end
+        X = X(:,N/2:N);
+        x = X(1,:);
+        y = X(2,:);
+        
+        T = 0;
+        for ii=1:N/2-1
+            [pjoint, pcond] = TransferEntropyProb(x', y', ii);
+            T = T + pjoint*log(1/pcond);
+        end
+        Tvec =[Tvec T];
+    end
+    disp(mean(Tvec))
+    Tavgvec = [Tavgvec mean(Tvec)];
+end
+
+plot(epsvec,Tavgvec)
+
+function y = ftent(x)
+if x < 0.5
+    y = 2*x;
+else
+    y = 2-2*x;
+end
+end
