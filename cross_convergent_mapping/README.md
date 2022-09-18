@@ -1,0 +1,1 @@
+In this project, we use the CCM test to detect causality in various dynamic systems and perform sensitivity analysis to the delay time and the dimension of the manifold embedding. Also, we study examples of some CCM test failures.  
