@@ -1,0 +1,1 @@
+In this project, we study the performance of the Granger causality test and the cross convergent mapping (CCM) test on time series data from stochastic systems, deterministic systems, and deterministic systems with observational noises. 
